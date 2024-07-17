@@ -67,9 +67,59 @@
                 background-color: #f4f4f4; /* Changes background on hover */
                 cursor: pointer;
             }
+        /* Sidebar styles */
+        .sidebar {
+            height: 100%; /* Full-height: remove this if you want "auto" height */
+            width: 0; /* Set the width of the sidebar */
+            position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+            z-index: 1; /* Stay on top */
+            top: 0; /* Stay at the top */
+            left: 0;
+            background-color: #111; /* Black */
+            overflow-x: hidden; /* Disable horizontal scroll */
+            padding-top: 60px; /* Place content 60px from the top */
+            transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+        }
+
+            /* The sidebar links */
+            .sidebar a {
+                padding: 10px 15px;
+                text-decoration: none;
+                font-size: 25px;
+                color: #818181;
+                display: block;
+                transition: 0.3s;
+            }
+
+                /* When you mouse over the navigation links, change their color */
+                .sidebar a:hover {
+                    color: #f1f1f1;
+                }
+
+        /* The button used to open the sidebar */
+        .openbtn {
+            font-size: 30px;
+            cursor: pointer;
+            background-color: #555;
+            color: white;
+            border: none;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 60px;
+            height: 60px;
+        }
+
     </style>
 </head>
 <body>
+    <div id="mySidebar" class="sidebar">
+        <a href="#">Agenda</a>
+        <a href="#">Characters</a>
+        <a href="#">Store</a>
+        <a href="#">Abilites</a>
+    </div>
+    <button class="openbtn" onclick="openNav()">☰</button>
     <h1 id="randomColorText">Welcome to Yamanami Dorm</h1>
     <h2>Main Characters</h2>
     <div class="container">
@@ -145,10 +195,24 @@
             <img src="img/Jhoris.png" alt="-">
             <h3>Jhoris Johan</h3>
         </a>
-        
+
         <!-- Additional other characters -->
     </div>
+    <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+        }
 
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebar = document.getElementById('mySidebar');
+            sidebar.addEventListener('mouseover', openNav);
+            sidebar.addEventListener('mouseout', closeNav);
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const heading = document.getElementById('randomColorText');
