@@ -189,6 +189,7 @@
         <a href="url/to/character-details1" class="character-card">
             <img src="img/MakiNilha.png" alt="Maki Nilha">
             <h3>Maki Nilha</h3>
+            testWrite();
         </a>
         <a href="url/to/character-details1" class="character-card">
             <img src="img/Alfons.png" alt="Alfons Gewaltig">
@@ -264,7 +265,7 @@
     <script>
         const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         const timeSlots = ['Morning', 'Noon', 'Afternoon', 'Evening', 'Night'];
-        
+
         let storedDate = localStorage.getItem('currentDate');
         let currentDate = storedDate ? new Date(storedDate) : new Date(new Date().getFullYear(), 4, 7); // Asumiendo que 4 es Mayo y 7 es el día
 
@@ -327,34 +328,31 @@
             document.getElementById('weekLabel').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            updateWeekLabel();
-            generateTableHeader();
-            generateTableBody();
-            document.querySelector('table').addEventListener('input', saveAgendaData);
-        });
+        
 
-        function saveAgendaData() {
-            document.querySelectorAll('td.editable').forEach(cell => {
-                let day = cell.getAttribute('data-day');
-                let slot = cell.getAttribute('data-slot');
-                let key = `${day} ${slot} ${currentDate.toISOString().substring(0, 10)}`;
-                localStorage.setItem(key, cell.textContent.trim());
-            });
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
         }
 
-        function loadAgendaData() {
-            const cells = document.querySelectorAll('td.editable');
-            cells.forEach(cell => {
-                let day = cell.getAttribute('data-day');
-                let slot = cell.getAttribute('data-slot');
-                let key = `${day} ${slot} ${currentDate.toISOString().substring(0, 10)}`;
-                let savedData = localStorage.getItem(key);
-                if (savedData) {
-                    cell.textContent = savedData;
-                }
-            });
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
         }
+
+        function randomizeColors() {
+            const heading = document.getElementById('randomColorText');
+            const text = heading.innerText;
+            let newHtml = '';
+            let colors = ['white', 'black']; // Define color options
+
+            // Wrap each character in a span, assign a random color
+            for (let i = 0; i < text.length; i++) {
+                const colorIndex = Math.floor(Math.random() * colors.length);
+                newHtml += `<span style="color: ${colors[colorIndex]};">${text[i]}</span>`;
+            }
+
+            heading.innerHTML = newHtml; // Apply the new HTML to the heading
+        }
+
         function openNav() {
             document.getElementById("mySidebar").style.width = "250px";
         }
@@ -369,11 +367,7 @@
         function closeNav() {
             document.getElementById("mySidebar").style.width = "0";
         }
-        document.addEventListener('DOMContentLoaded', function () {
-            generateTableHeader();
-            generateTableBody();
-            document.querySelector('table').addEventListener('input', saveData);
-        });
+        
 
         document.addEventListener('DOMContentLoaded', function () {
             const sidebar = document.getElementById('mySidebar');
@@ -395,6 +389,142 @@
 
             heading.innerHTML = newHtml; // Apply the new HTML to the heading
         });
+
     </script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAyt_9YFvhYF_f5adSS1M_FrJ1bQ199VWY",
+
+            authDomain: "yamanami-dorm.firebaseapp.com",
+
+            projectId: "yamanami-dorm",
+
+            storageBucket: "yamanami-dorm.appspot.com",
+
+            messagingSenderId: "139150495901",
+
+            appId: "1:139150495901:web:7454d8468a90e22a538474",
+
+            measurementId: "G-7M5EGBC3R9"
+
+        };
+
+
+        // Initialize Firebase
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        function saveAgendaData() {
+            document.querySelectorAll('td.editable').forEach(cell => {
+                let day = cell.getAttribute('data-day');
+                let slot = cell.getAttribute('data-slot');
+                let key = `${day} ${slot} ${currentDate.toISOString().substring(0, 10)}`;
+                let data = cell.textContent.trim();
+
+                // Guardar en Firestore
+                db.collection("agenda").doc(key).set({ content: data });
+            });
+        }
+
+
+        async function loadAgendaData() {
+            const cells = document.querySelectorAll('td.editable');
+            cells.forEach(async (cell) => {
+                let day = cell.getAttribute('data-day');
+                let slot = cell.getAttribute('data-slot');
+                let key = `${day} ${slot} ${currentDate.toISOString().substring(0, 10)}`;
+
+                // Leer de Firestore
+                const docRef = doc(db, "agenda", key);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    cell.textContent = docSnap.data().content;
+                } else {
+                    console.log("No such document!");
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            generateTableHeader();
+            generateTableBody();
+            document.querySelector('table').addEventListener('input', saveAgendaData);
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            updateWeekLabel();
+            generateTableHeader();
+            generateTableBody();
+            loadAgendaData();  // Asegúrate de cargar los datos al inicio.
+            document.querySelector('table').addEventListener('input', saveAgendaData);
+            const sidebar = document.getElementById('mySidebar');
+            sidebar.addEventListener('mouseover', openNav);
+            sidebar.addEventListener('mouseout', closeNav);
+            randomizeColors();
+        });
+
+        // Function to add weeks automatically to Firestore
+        async function addWeeksToFirestore(startYear) {
+            const startDate = new Date(startYear, 0, 1); // Comienza en el 1 de enero del año dado
+            const endDate = new Date(startYear + 1, 0, 1); // Hasta el 1 de enero del siguiente año
+            let currentDate = new Date(startDate);
+
+            while (currentDate < endDate) {
+                let weekDoc = {
+                    week_start_date: currentDate.toISOString().slice(0, 10),
+                    Monday: { Morning: { activity: "" }, Noon: { activity: "" }, Afternoon: { activity: "" }, Evening: { activity: "" } },
+                    Tuesday: { Morning: { activity: "" }, Noon: { activity: "" }, Afternoon: { activity: "" }, Evening: { activity: "" } },
+                    Wendesday: { Morning: { activity: "" }, Noon: { activity: "" }, Afternoon: { activity: "" }, Evening: { activity: "" } },
+                    Thursday: { Morning: { activity: "" }, Noon: { activity: "" }, Afternoon: { activity: "" }, Evening: { activity: "" } },
+                    Friday: { Morning: { activity: "" }, Noon: { activity: "" }, Afternoon: { activity: "" }, Evening: { activity: "" } },
+                    Saturday: { Morning: { activity: "" }, Noon: { activity: "" }, Afternoon: { activity: "" }, Evening: { activity: "" } },
+                    Sunday: { Morning: { activity: "" }, Noon: { activity: "" }, Afternoon: { activity: "" }, Evening: { activity: "" } },
+                };
+
+                // Incrementa la fecha en siete días
+                let nextDate = new Date(currentDate);
+                nextDate.setDate(currentDate.getDate() + 7);
+
+                const weekRef = doc(db, "agenda", `week-of-${weekDoc.week_start_date}`);
+                await setDoc(weekRef, weekDoc);
+                console.log(`Week starting ${weekDoc.week_start_date} added successfully`);
+
+                currentDate = nextDate;
+            }
+        }
+        window.onload = function () {
+            const addButton = document.getElementById('addDataButton');
+            if (addButton) {
+                addButton.onclick = function () {
+                    addWeeksToFirestore(2024).then(() => console.log("Weeks added successfully"))
+                        .catch(error => console.error("Error adding weeks: ", error));
+                };
+            } else {
+                console.error("Add button not found");
+            }
+        };
+        async function testWrite() {
+            const db = getFirestore(initializeApp(firebaseConfig));
+            try {
+                await setDoc(doc(db, "testCollection", "testDoc"), { content: "Hello Firestore!" });
+                console.log("Document written");
+            } catch (error) {
+                console.error("Error writing document: ", error);
+            }
+        }
+
+        testWrite();
+
+    </script>
+
+    <button id="addDataButton">Add Weeks to Firestore</button>
 </body>
 </html>
