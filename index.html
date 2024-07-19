@@ -264,7 +264,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-        import { getFirestore, doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, updateDoc, setDoc, onSnapshot} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAyt_9YFvhYF_f5adSS1M_FrJ1bQ199VWY",
@@ -368,31 +368,28 @@
 
         async function loadAgendaData() {
             const cells = document.querySelectorAll('td.editable');
-            console.log("Cargando datos para", cells.length, "celdas.");
-            cells.forEach(async (cell) => {
+            cells.forEach((cell) => {
                 const dateOfCell = cell.getAttribute('data-date');
                 const slot = cell.getAttribute('data-slot');
-                console.log("Cargando datos para la fecha:", dateOfCell, "y franja horaria:", slot);
                 if (dateOfCell && slot) {
                     const docRef = doc(db, "agenda", dateOfCell);
-                    try {
-                        const docSnap = await getDoc(docRef);
+                    onSnapshot(docRef, (docSnap) => {
                         if (docSnap.exists()) {
                             const data = docSnap.data();
                             cell.textContent = data[slot] || "";
-                            console.log("Datos cargados:", data[slot]);
                         } else {
                             console.log("No hay datos para", dateOfCell);
-                            cell.textContent = "No hay actividad";  // Asegura que el usuario sabe que no hay datos.
+                            cell.textContent = "No hay actividad";  // Indica que no hay datos.
                         }
-                    } catch (error) {
-                        console.error("Error al cargar datos de Firestore:", error);
-                    }
+                    }, (error) => {
+                        console.error("Error al escuchar los datos de Firestore:", error);
+                    });
                 } else {
                     console.error("Faltan atributos data-date o data-slot en la celda:", cell);
                 }
             });
         }
+
         async function addDaysOfYearToFirestore(year) {
             const db = getFirestore(app);
             const startDate = new Date(year, 0, 1); // Comienza en enero 1 del año dado
