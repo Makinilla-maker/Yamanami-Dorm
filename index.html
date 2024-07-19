@@ -223,7 +223,7 @@
             <h3>Mitsuru kirijo</h3>
         </a>
         <a href="url/to/character-details2" class="character-card">
-            <img src="img/Akihiko.jpg" alt="-">
+            <img src="img/Akihiko.png" alt="-">
             <h3>Akihiko Sanada</h3>
         </a>
         <a href="url/to/character-details2" class="character-card">
@@ -475,6 +475,38 @@
                     console.error("Error loading data for", dateOfCell, ":", error);
                 }
             });
+        }
+        function listenForAgendaUpdates() {
+            const cells = document.querySelectorAll('td.editable');
+            cells.forEach(cell => {
+                const dateOfCell = cell.getAttribute('data-date');
+
+                if (dateOfCell) {
+                    const docRef = doc(db, "agenda", dateOfCell);
+                    onSnapshot(docRef, (doc) => {
+                        if (doc.exists()) {
+                            updateCell(cell, doc.data());
+                        } else {
+                            console.log("No data available for:", dateOfCell);
+                        }
+                    }, (error) => {
+                        console.error("Error fetching real time data:", error);
+                    });
+                }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            generateTableHeader();
+            generateTableBody();
+            listenForAgendaUpdates();  // Iniciar la escucha de actualizaciones en tiempo real
+            document.querySelector('table').addEventListener('input', saveAgendaData);
+        });
+
+        function updateCell(cell, data) {
+            const day = cell.getAttribute('data-day');
+            const slot = cell.getAttribute('data-slot');
+            const activityData = data[slot]?.activity;
+            cell.textContent = activityData || "No activity";  // Actualiza el contenido de la celda
         }
 
 
