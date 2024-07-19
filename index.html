@@ -122,8 +122,14 @@
 
         th, td {
             border: 1px solid #ccc;
-            padding: 5px; /* Increase padding inside cells */
+            padding: 10px; /* Aumentado de 5px a 10px */
             text-align: center;
+            height: 50px; /* Establece una altura mayor para más espacio */
+        }
+
+        .time-slot {
+            background-color: #9b9b9b;
+            height: 50px; /* Ajustado para mantener la consistencia */
         }
 
         th {
@@ -131,11 +137,6 @@
             color: white;
         }
 
-
-        .time-slot {
-            background-color: #9b9b9b;
-            height: 100px;
-        }
 
         .editable {
             cursor: pointer;
@@ -262,144 +263,9 @@
         <!-- Additional other characters -->
     </div>
 
-    <script>
-        const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-        const timeSlots = ['Morning', 'Noon', 'Afternoon', 'Evening', 'Night'];
-
-        let storedDate = localStorage.getItem('currentDate');
-        let currentDate = storedDate ? new Date(storedDate) : new Date(new Date().getFullYear(), 4, 7); // Asumiendo que 4 es Mayo y 7 es el día
-
-        function generateTableHeader() {
-            let headerRow = document.querySelector('thead tr');
-            headerRow.innerHTML = '<th>Time/Date</th>'; // Clear existing headers
-            let weekStart = new Date(currentDate);
-            weekStart.setDate(weekStart.getDate() - weekStart.getDay() + 1); // Adjust to Monday of the current week
-
-            daysOfWeek.forEach((day, index) => {
-                let th = document.createElement('th');
-                let date = new Date(weekStart);
-                date.setDate(date.getDate() + index);
-                th.textContent = `${day} ${date.getDate()}/${date.getMonth() + 1}`;
-                headerRow.appendChild(th);
-            });
-        }
-
-        function generateTableBody() {
-            let tbody = document.querySelector('tbody');
-            tbody.innerHTML = ''; // Limpiar filas existentes
-            timeSlots.forEach(slot => {
-                let row = document.createElement('tr');
-                let th = document.createElement('th');
-                th.textContent = slot;
-                th.className = 'time-slot';
-                row.appendChild(th);
-
-                daysOfWeek.forEach((day, index) => {
-                    let td = document.createElement('td');
-                    td.className = 'editable';
-                    td.setAttribute('contenteditable', 'true');
-                    td.setAttribute('data-day', day);
-                    td.setAttribute('data-slot', slot);
-                    let dateOfCell = new Date(currentDate); // Asume que currentDate es la fecha del lunes de la semana mostrada
-                    dateOfCell.setDate(dateOfCell.getDate() + index); // Ajusta la fecha para cada día de la semana
-                    td.setAttribute('data-date', dateOfCell.toISOString().substring(0, 10)); // Establece la fecha de la celda
-                    let savedData = localStorage.getItem(`${day} ${slot} ${dateOfCell.toISOString().substring(0, 10)}`);
-                    if (savedData) {
-                        td.textContent = savedData;
-                    }
-                    row.appendChild(td);
-                });
-
-                tbody.appendChild(row);
-            });
-        }
-
-
-        function changeWeek(direction) {
-            currentDate.setDate(currentDate.getDate() + 7 * direction);
-            localStorage.setItem('currentDate', currentDate.toISOString()); // Guarda la fecha actual en localStorage
-            updateWeekLabel();
-            generateTableHeader();
-            generateTableBody();
-        }
-
-        function updateWeekLabel() {
-            let weekStart = new Date(currentDate);
-            weekStart.setDate(weekStart.getDate() - weekStart.getDay() + 1); // Adjust to Monday
-            let weekEnd = new Date(weekStart);
-            weekEnd.setDate(weekEnd.getDate() + 6); // Sunday
-            document.getElementById('weekLabel').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-        }
-
-        
-
-        function openNav() {
-            document.getElementById("mySidebar").style.width = "250px";
-        }
-
-        function closeNav() {
-            document.getElementById("mySidebar").style.width = "0";
-        }
-
-        function randomizeColors() {
-            const heading = document.getElementById('randomColorText');
-            const text = heading.innerText;
-            let newHtml = '';
-            let colors = ['white', 'black']; // Define color options
-
-            // Wrap each character in a span, assign a random color
-            for (let i = 0; i < text.length; i++) {
-                const colorIndex = Math.floor(Math.random() * colors.length);
-                newHtml += `<span style="color: ${colors[colorIndex]};">${text[i]}</span>`;
-            }
-
-            heading.innerHTML = newHtml; // Apply the new HTML to the heading
-        }
-
-        function openNav() {
-            document.getElementById("mySidebar").style.width = "250px";
-        }
-
-        function closeNav() {
-            document.getElementById("mySidebar").style.width = "0";
-        }
-        function openNav() {
-            document.getElementById("mySidebar").style.width = "250px";
-        }
-
-        function closeNav() {
-            document.getElementById("mySidebar").style.width = "0";
-        }
-        
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const sidebar = document.getElementById('mySidebar');
-            sidebar.addEventListener('mouseover', openNav);
-            sidebar.addEventListener('mouseout', closeNav);
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const heading = document.getElementById('randomColorText');
-            const text = heading.innerText;
-            let newHtml = '';
-            let colors = ['white', 'black']; // Define color options
-
-            // Wrap each character in a span, assign a random color
-            for (let i = 0; i < text.length; i++) {
-                const colorIndex = Math.floor(Math.random() * colors.length);
-                newHtml += `<span style="color: ${colors[colorIndex]};">${text[i]}</span>`;
-            }
-
-            heading.innerHTML = newHtml; // Apply the new HTML to the heading
-        });
-
-    </script>
     <script type="module">
-        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
-
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics.js";
+        import { getFirestore, doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAyt_9YFvhYF_f5adSS1M_FrJ1bQ199VWY",
@@ -418,168 +284,150 @@
 
         };
 
-
-        // Initialize Firebase
-
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
         const db = getFirestore(app);
-        console.log(db);
-        console.log(db.collection);
 
-        async function saveAgendaData() {
-            const cells = document.querySelectorAll('td.editable');
+        let currentDate = new Date(2007, 0, 1);
 
-            for (const cell of cells) {
-                const slot = cell.getAttribute('data-slot'); // Ejemplo: 'Morning'
-                const dateOfCell = cell.getAttribute('data-date'); // Ejemplo: '2024-05-06'
-                const data = cell.textContent.trim(); // Captura el nuevo contenido de la actividad
+        document.addEventListener('DOMContentLoaded', function () {
+            renderAgenda();
+            document.querySelector('tbody').addEventListener('input', saveAgendaData);
+        });
 
-                const docRef = doc(db, "agenda", dateOfCell); // Referencia al documento por su fecha
+        function changeWeek(direction) {
+            currentDate.setDate(currentDate.getDate() + (7 * direction));
+            localStorage.setItem('currentDate', currentDate.toISOString());
+            renderAgenda();
+        }
 
-                try {
-                    const fieldToUpdate = `${slot}.activity`; // Campo específico a actualizar
-                    await updateDoc(docRef, { [fieldToUpdate]: data }); // Actualiza solo el campo específico
-                    console.log("Activity updated successfully for", dateOfCell, slot);
-                } catch (error) {
-                    console.error("Error updating activity for", dateOfCell, slot, ":", error);
+        function renderAgenda() {
+            updateWeekLabel();
+            generateTableHeader();
+            generateTableBody();
+            loadAgendaData();
+        }
+
+        function updateWeekLabel() {
+            let weekStart = new Date(currentDate);
+            weekStart.setDate(weekStart.getDate() - weekStart.getDay() + 1);
+            let weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekEnd.getDate() + 6);
+        }
+
+        function generateTableHeader() {
+            const headerRow = document.querySelector('thead tr');
+            headerRow.innerHTML = '<th>Time/Date</th>'; // Clear the header
+            const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            daysOfWeek.forEach((day, index) => {
+                const th = document.createElement('th');
+                const date = new Date(currentDate);
+                date.setDate(currentDate.getDate() - currentDate.getDay() + 1 + index);
+                th.textContent = `${day} ${date.getDate()}/${date.getMonth() + 1}`;
+                headerRow.appendChild(th);
+            });
+        }
+
+        function generateTableBody() {
+            const tbody = document.querySelector('tbody');
+            tbody.innerHTML = '';
+            const timeSlots = ['Morning', 'Noon', 'Afternoon', 'Evening', 'Night'];
+            timeSlots.forEach((slot, slotIndex) => {
+                const row = document.createElement('tr');
+                const th = document.createElement('th');
+                th.textContent = slot;
+                row.appendChild(th);
+                for (let i = 0; i < 7; i++) {
+                    const td = document.createElement('td');
+                    td.className = 'editable';
+                    td.setAttribute('contenteditable', 'true');
+                    td.setAttribute('data-slot', slot);
+                    const dateOfCell = new Date(currentDate);
+                    dateOfCell.setDate(currentDate.getDate() - currentDate.getDay() + 1 + i);
+                    td.setAttribute('data-date', dateOfCell.toISOString().substring(0, 10));
+                    row.appendChild(td);
                 }
+                tbody.appendChild(row);
+            });
+        }
+
+        async function saveAgendaData(event) {
+            const cell = event.target;
+            const date = cell.getAttribute('data-date');
+            const slot = cell.getAttribute('data-slot');
+            const value = cell.textContent.trim();
+            const agendaRef = doc(db, "agenda", date);
+
+            try {
+                await updateDoc(agendaRef, {
+                    [slot]: value
+                });
+                console.log("Data saved:", date, slot, value);
+            } catch (error) {
+                console.error("Error saving data:", error);
             }
         }
 
         async function loadAgendaData() {
             const cells = document.querySelectorAll('td.editable');
+            console.log("Cargando datos para", cells.length, "celdas.");
             cells.forEach(async (cell) => {
-                const day = cell.getAttribute('data-day');
-                const slot = cell.getAttribute('data-slot');
-                const dateOfCell = cell.getAttribute('data-date');  // Ensure this attribute is set in your HTML when generating cells
-
-                if (!dateOfCell) {
-                    console.error("Missing date for cell:", cell);
-                    return; // Skip this cell if date is missing
-                }
-
-                const docRef = doc(db, "agenda", dateOfCell);
-                console.log("Loading data for:", dateOfCell, day, slot); // Debugging output
-
-                try {
-                    const docSnap = await getDoc(docRef);
-                    if (docSnap.exists()) {
-                        console.log("Data found for:", dateOfCell); // Confirm data is found
-                        const activityData = docSnap.data()[slot].activity; // Assuming your structure includes slot and activity
-                        cell.textContent = activityData || ""; // Populate cell or indicate no activity
-                    } else {
-                        console.log("No document found for:", dateOfCell);
-                    }
-                } catch (error) {
-                    console.error("Error loading data for", dateOfCell, ":", error);
-                }
-            });
-        }
-        function listenForAgendaUpdates() {
-            const cells = document.querySelectorAll('td.editable');
-            cells.forEach(cell => {
                 const dateOfCell = cell.getAttribute('data-date');
-
-                if (dateOfCell) {
+                const slot = cell.getAttribute('data-slot');
+                console.log("Cargando datos para la fecha:", dateOfCell, "y franja horaria:", slot);
+                if (dateOfCell && slot) {
                     const docRef = doc(db, "agenda", dateOfCell);
-                    onSnapshot(docRef, (doc) => {
-                        if (doc.exists()) {
-                            updateCell(cell, doc.data());
+                    try {
+                        const docSnap = await getDoc(docRef);
+                        if (docSnap.exists()) {
+                            const data = docSnap.data();
+                            cell.textContent = data[slot] || "";
+                            console.log("Datos cargados:", data[slot]);
                         } else {
-                            console.log("No data available for:", dateOfCell);
+                            console.log("No hay datos para", dateOfCell);
+                            cell.textContent = "No hay actividad";  // Asegura que el usuario sabe que no hay datos.
                         }
-                    }, (error) => {
-                        console.error("Error fetching real time data:", error);
-                    });
+                    } catch (error) {
+                        console.error("Error al cargar datos de Firestore:", error);
+                    }
+                } else {
+                    console.error("Faltan atributos data-date o data-slot en la celda:", cell);
                 }
             });
         }
-        document.addEventListener('DOMContentLoaded', function () {
-            generateTableHeader();
-            generateTableBody();
-            listenForAgendaUpdates();  // Iniciar la escucha de actualizaciones en tiempo real
-            document.querySelector('table').addEventListener('input', saveAgendaData);
-        });
+        async function addDaysOfYearToFirestore(year) {
+            const db = getFirestore(app);
+            const startDate = new Date(year, 0, 1); // Comienza en enero 1 del año dado
+            const endDate = new Date(year + 1, 0, 0); // Hasta diciembre 31 del año dado
 
-        function updateCell(cell, data) {
-            const day = cell.getAttribute('data-day');
-            const slot = cell.getAttribute('data-slot');
-            const activityData = data[slot]?.activity;
-            cell.textContent = activityData || "No activity";  // Actualiza el contenido de la celda
+            for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
+                const dateStr = d.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+                const docRef = doc(db, "agenda", dateStr);
+                await setDoc(docRef, {
+                    date: dateStr,
+                    notes: ""
+                }, { merge: true }); // Usamos merge para no sobrescribir otros campos accidentalmente
+            }
         }
 
-
         document.addEventListener('DOMContentLoaded', function () {
-            generateTableHeader();
-            generateTableBody();
-            document.querySelector('table').addEventListener('input', saveAgendaData);
-        });
-        document.addEventListener('DOMContentLoaded', function () {
-            updateWeekLabel();
-            generateTableHeader();
-            generateTableBody();
-            loadAgendaData();  // Asegúrate de cargar los datos al inicio.
-            document.querySelector('table').addEventListener('input', saveAgendaData);
-            const sidebar = document.getElementById('mySidebar');
-            sidebar.addEventListener('mouseover', openNav);
-            sidebar.addEventListener('mouseout', closeNav);
-            randomizeColors();
-        });
-
-        // Function to add weeks automatically to Firestore
-        async function addWeeksToFirestore(startYear) {
-                const startDate = new Date(startYear, 0, 1); // Comienza en el 1 de enero del año dado
-                const endDate = new Date(startYear + 1, 0, 1); // Hasta el 1 de enero del siguiente año
-                let currentDate = new Date(startDate);
-
-                while (currentDate < endDate) {
-                    let dayDoc = {
-                        date: currentDate.toISOString().slice(0, 10),
-                        Morning: { activity: "" },
-                        Noon: { activity: "" },
-                        Afternoon: { activity: "" },
-                        Evening: { activity: "" },
-                        Night: { activity: "" } // Asumiendo que también hay una franja "Night"
-                    };
-
-                    // Incrementa la fecha en un día
-                    let nextDate = new Date(currentDate);
-                    nextDate.setDate(currentDate.getDate() + 1);
-
-                    const dayRef = doc(db, "agenda", dayDoc.date); // Usa la fecha como identificador del documento
-                    await setDoc(dayRef, dayDoc);
-                    console.log(`Day ${dayDoc.date} added successfully`);
-
-                    currentDate = nextDate;
-                }
-            }
-
-        window.onload = function () {
-            const addButton = document.getElementById('addDataButton');
+            const addButton = document.getElementById('addYearDataButton');
             if (addButton) {
-                addButton.onclick = function () {
-                    addWeeksToFirestore(2024).then(() => console.log("Weeks added successfully"))
-                        .catch(error => console.error("Error adding weeks: ", error));
-                };
-            } else {
-                console.error("Add button not found");
+                addButton.addEventListener('click', function () {
+                    const year = prompt("Ingrese el año para agregar los días:");
+                    if (year) {
+                        addDaysOfYearToFirestore(parseInt(year));
+                    }
+                });
             }
-        };
-        async function testWrite() {
-            const db = getFirestore(initializeApp(firebaseConfig));
-            try {
-                await setDoc(doc(db, "testCollection", "testDoc"), { content: "Hello Firestore!" });
-                console.log("Document written");
-            } catch (error) {
-                console.error("Error writing document: ", error);
-            }
-        }
+        });
 
-        testWrite();
-
+        window.changeWeek = changeWeek;
+        window.openNav = () => document.getElementById("mySidebar").style.width = "250px";
+        window.closeNav = () => document.getElementById("mySidebar").style.width = "0";
     </script>
 
-    <button id="addDataButton">Add Weeks to Firestore</button>
+
+    <button id="addYearDataButton">Añadir Días del Año a Firestore</button>
+
 </body>
 </html>
