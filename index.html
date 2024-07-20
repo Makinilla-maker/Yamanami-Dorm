@@ -327,7 +327,7 @@
             console.error("Error fetching document: ", error);
         });
 
-        let currentDate = new Date(2007, 0, 1);
+        let currentDate = new Date(localStorage.getItem('currentDate') || '2009-01-01T00:00:00Z');
 
         document.addEventListener('DOMContentLoaded', function () {
             renderAgenda();
@@ -367,6 +367,11 @@
             weekStart.setDate(weekStart.getDate() - weekStart.getDay() + 1);
             let weekEnd = new Date(weekStart);
             weekEnd.setDate(weekEnd.getDate() + 6);
+            document.getElementById('weekLabel').textContent = `${formatDate(weekStart)} - ${formatDate(weekEnd)}`;
+        }
+
+        function formatDate(date) {
+            return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
         }
 
         function generateTableHeader() {
@@ -385,7 +390,7 @@
         function generateTableBody() {
             const tbody = document.querySelector('tbody');
             tbody.innerHTML = '';
-            const timeSlots = ['Morning', 'Noon', 'Afternoon', 'Evening', 'Night'];
+            const timeSlots = ['Morning', 'Afternoon', 'Evening', 'Night'];
             timeSlots.forEach((slot, slotIndex) => {
                 const row = document.createElement('tr');
                 const th = document.createElement('th');
@@ -435,7 +440,7 @@
                             cell.textContent = data[slot] || "";
                         } else {
                             console.log("No hay datos para", dateOfCell);
-                            cell.textContent = "No hay actividad";  // Indica que no hay datos.
+                            cell.textContent = "";  // Indica que no hay datos.
                         }
                     }, (error) => {
                         console.error("Error al escuchar los datos de Firestore:", error);
@@ -479,7 +484,7 @@
     </script>
 
 
-    <!-- <button id="addYearDataButton">Añadir Días del Año a Firestore</button> -->
+    <button id="addYearDataButton">Añadir Días del Año a Firestore</button>
 
 </body>
 </html>
