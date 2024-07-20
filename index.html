@@ -39,7 +39,11 @@
             margin-top: 50px; /* Space above subheader */
             word-spacing: 0; /* Normal word spacing for subheaders */
         }
-
+        h3 {
+            margin: 10px 0 0 0; /* Ajusta el margen superior para el título */
+            color: #333; /* Color del texto para mejor visibilidad */
+            font-size: 16px; /* Tamaño de la fuente */
+        }
         .container {
             display: flex;
             flex-wrap: wrap;
@@ -47,23 +51,26 @@
             padding: 20px;
         }
         .character-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5)); /* Faded white gradient background */
-            border: 1px solid #ccc;
+            width: 300px; /* Ancho fijo */
+            height: 340px; /* Altura fija para mantener todo dentro */
+            overflow: hidden; /* Evita que el contenido se desborde */
             border-radius: 8px;
             margin: 10px;
             padding: 10px;
-            width: 300px; /* Fixed card width */
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            display: block; /* Makes the card a block element for link functionality */
-            text-decoration: none; /* Removes underline from links */
-            color: black; /* Ensures text is black, not default anchor tag color */
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5));
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Distribuye el espacio interior */
+            align-items: center; /* Alinea contenido al centro horizontalmente */
+            text-align: center; /* Centra el texto horizontalmente */
         }
 
             .character-card img {
-                width: 300px; /* Fixed width for images */
-                height: 300px; /* Fixed height for images */
+                width: 100%; /* Se ajusta al ancho de la tarjeta */
+                height: 260px; /* Altura fija para la imagen */
                 border-radius: 5px;
-                object-fit: cover; /* Ensures images cover the fixed dimensions without distortion */
+                object-fit: cover; /* Asegura que la imagen cubra el espacio asignado sin distorsión */
             }
 
             .character-card:hover {
@@ -166,6 +173,62 @@
             background-color: #666;
             border: none;
         }
+        .flip-card {
+            width: 300px; /* Ancho de la tarjeta */
+            height: 340px; /* Altura de la tarjeta */
+            perspective: 1000px; /* Añade perspectiva para un efecto 3D */
+            margin: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+            .flip-card-front img, .flip-card-back img {
+                width: 90%; /* Reducción del tamaño inicial al 90% */
+                height: 90%; /* Reducción del tamaño inicial al 90% */
+                object-fit: cover;
+                border-radius: 8px;
+                transition: transform 0.6s ease; /* Suaviza la transición de la transformación */
+            }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card:hover .flip-card-back img {
+            transform: scale(1.11); /* Escala la imagen hasta llenar el espacio al 100% */
+        }
+
+        .character-card h3 {
+            transition: opacity 0.6s ease;
+            opacity: 1; /* Nombre visible inicialmente */
+        }
+
+        .flip-card:hover .character-card h3 {
+            opacity: 0; /* Oculta el nombre cuando la tarjeta está girada */
+        }
     </style>
 </head>
 <body>
@@ -221,50 +284,152 @@
     <h2>Other Characters</h2>
     <div class="container">
         <!-- Other character cards -->
-        <a href="url/to/character-details2" class="character-card">
-            <img src="img/kenji.png" alt="-">
-            <h3>Kenji Tomochika</h3>
-        </a>
-        <a href="url/to/character-details2" class="character-card">
-            <img src="img/Gwen.png" alt="-">
-            <h3>Gwen</h3>
-        </a>
-        <a href="url/to/character-details2" class="character-card">
-            <img src="img/Mitsuru.png" alt="-">
+
+        <div class="character-card flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <!-- Imagen frontal de la tarjeta -->
+                    <img src="img/kenji.png" alt="Maki Nilha">
+                </div>
+                <div class="flip-card-back">
+                    <!-- Imagen trasera de la tarjeta (debes agregar esta imagen en tu servidor) -->
+                    <img src="img/Arcanas/magican.png" alt="Maki Nilha Back">
+                </div>
+            </div>
+            <h3>Kenji</h3>
+        </div>
+
+        <div class="character-card flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <!-- Imagen frontal de la tarjeta -->
+                    <img src="img/Gwen.png" alt="Maki Nilha">
+                </div>
+                <div class="flip-card-back">
+                    <!-- Imagen trasera de la tarjeta (debes agregar esta imagen en tu servidor) -->
+                    <img src="img/Arcanas/priestess.png" alt="Maki Nilha Back">
+                </div>
+            </div>
+            <h3>Gwen Ikutuku</h3>
+        </div>
+        <div class="character-card flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <!-- Imagen frontal de la tarjeta -->
+                    <img src="img/Mitsuru.png" alt="Maki Nilha">
+                </div>
+                <div class="flip-card-back">
+                    <!-- Imagen trasera de la tarjeta (debes agregar esta imagen en tu servidor) -->
+                    <img src="img/Arcanas/empress.png" alt="Maki Nilha Back">
+                </div>
+            </div>
             <h3>Mitsuru kirijo</h3>
-        </a>
-        <a href="url/to/character-details2" class="character-card">
-            <img src="img/Akihiko.png" alt="-">
+        </div>
+
+        <div class="character-card flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <!-- Imagen frontal de la tarjeta -->
+                    <img src="img/Akihiko.png" alt="Maki Nilha">
+                </div>
+                <div class="flip-card-back">
+                    <!-- Imagen trasera de la tarjeta (debes agregar esta imagen en tu servidor) -->
+                    <img src="img/Arcanas/emperor.png" alt="Maki Nilha Back">
+                </div>
+            </div>
             <h3>Akihiko Sanada</h3>
-        </a>
-        <a href="url/to/character-details2" class="character-card">
-            <img src="img/Sojiro.png" alt="-">
+        </div>
+        <div class="character-card flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <!-- Imagen frontal de la tarjeta -->
+                    <img src="img/Sojiro.png" alt="Maki Nilha">
+                </div>
+                <div class="flip-card-back">
+                    <!-- Imagen trasera de la tarjeta (debes agregar esta imagen en tu servidor) -->
+                    <img src="img/Arcanas/hierophant.png" alt="Maki Nilha Back">
+                </div>
+            </div>
             <h3>Sojiro Sakura</h3>
-        </a>
-        <a href="url/to/character-details2" class="character-card">
-            <img src="img/Rise.png" alt="-">
+        </div>
+        <div class="character-card flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <!-- Imagen frontal de la tarjeta -->
+                    <img src="img/Rise.png" alt="Maki Nilha">
+                </div>
+                <div class="flip-card-back">
+                    <!-- Imagen trasera de la tarjeta (debes agregar esta imagen en tu servidor) -->
+                    <img src="img/Arcanas/lovers.png" alt="Maki Nilha Back">
+                </div>
+            </div>
             <h3>Rise Kujikawa</h3>
-        </a>
-        <a href="url/to/character-details2" class="character-card">
-            <img src="img/Yukari.png" alt="-">
+        </div>
+        <div class="character-card flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <!-- Imagen frontal de la tarjeta -->
+                    <img src="img/Yukari.png" alt="Maki Nilha">
+                </div>
+                <div class="flip-card-back">
+                    <!-- Imagen trasera de la tarjeta (debes agregar esta imagen en tu servidor) -->
+                    <img src="img/Arcanas/justice.png" alt="Maki Nilha Back">
+                </div>
+            </div>
             <h3>Yukari Takeba</h3>
-        </a>
-        <a href="url/to/character-details2" class="character-card">
-            <img src="img/Tae.png" alt="-">
+        </div>
+        <div class="character-card flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <!-- Imagen frontal de la tarjeta -->
+                    <img src="img/Tae.png" alt="Maki Nilha">
+                </div>
+                <div class="flip-card-back">
+                    <!-- Imagen trasera de la tarjeta (debes agregar esta imagen en tu servidor) -->
+                    <img src="img/Arcanas/death.png" alt="Maki Nilha Back">
+                </div>
+            </div>
             <h3>Tae Takemi</h3>
-        </a>
-        <a href="url/to/character-details2" class="character-card">
-            <img src="img/Maya.png" alt="-">
+        </div>
+        <div class="character-card flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <!-- Imagen frontal de la tarjeta -->
+                    <img src="img/Maya.png" alt="Maki Nilha">
+                </div>
+                <div class="flip-card-back">
+                    <!-- Imagen trasera de la tarjeta (debes agregar esta imagen en tu servidor) -->
+                    <img src="img/Arcanas/hermit.png" alt="Maki Nilha Back">
+                </div>
+            </div>
             <h3>Maya</h3>
-        </a>
-        <a href="url/to/character-details2" class="character-card">
-            <img src="img/Naoto.png" alt="-">
+        </div>
+        <div class="character-card flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <!-- Imagen frontal de la tarjeta -->
+                    <img src="img/Naoto.png" alt="Maki Nilha">
+                </div>
+                <div class="flip-card-back">
+                    <!-- Imagen trasera de la tarjeta (debes agregar esta imagen en tu servidor) -->
+                    <img src="img/Arcanas/fortune.png" alt="Maki Nilha Back">
+                </div>
+            </div>
             <h3>Naoto Shirogane</h3>
-        </a>
-        <a href="url/to/character-details2" class="character-card">
-            <img src="img/Saori.png" alt="-">
+        </div>
+        <div class="character-card flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <!-- Imagen frontal de la tarjeta -->
+                    <img src="img/Saori.png" alt="Maki Nilha">
+                </div>
+                <div class="flip-card-back">
+                    <!-- Imagen trasera de la tarjeta (debes agregar esta imagen en tu servidor) -->
+                    <img src="img/Arcanas/strength.png" alt="Maki Nilha Back">
+                </div>
+            </div>
             <h3>Saori Hasegawa</h3>
-        </a>
+        </div>
         <a href="url/to/character-details2" class="character-card">
             <img src="img/Jhoris.png" alt="-">
             <h3>Jhoris Johan</h3>
@@ -361,6 +526,7 @@
             generateTableBody();
             loadAgendaData();
         }
+
 
         function updateWeekLabel() {
             let weekStart = new Date(currentDate);
