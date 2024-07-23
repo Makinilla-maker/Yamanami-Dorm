@@ -74,8 +74,9 @@
             }
 
             .character-card:hover {
-                background-color: #f4f4f4; /* Changes background on hover */
-                cursor: pointer;
+                background-color: #f4f4f4;
+                transform: scale(1.02);
+                transition: background-color 0.3s ease, transform 0.3s ease;
             }
         /* Sidebar styles */
         .sidebar {
@@ -247,6 +248,12 @@
         <span id="weekLabel"></span>
         <button class="nav-button" onclick="changeWeek(1)">Next Week &#10095;</button>
     </div>
+    
+    <div id="dateSelection" style="text-align: center; margin: 20px;">
+        <input type="date" id="dateInput" />
+        <button class="nav-button" onclick="navigateToDate()">Go</button>
+    </div>
+
     <table id="agendaTable">
         <thead>
             <tr>
@@ -517,7 +524,7 @@
         function changeWeek(direction) {
             currentDate.setDate(currentDate.getDate() + (7 * direction));
             localStorage.setItem('currentDate', currentDate.toISOString());
-            renderAgenda();
+            renderAgenda();         
         }
 
         function renderAgenda() {
@@ -644,6 +651,30 @@
             }
         });
 
+        document.addEventListener('DOMContentLoaded', function () {
+        // Otras inicializaciones y configuraciones
+
+        // Añadir el evento de clic al botón de navegación a fecha
+        document.querySelector('.nav-button').addEventListener('click', navigateToDate);
+    });
+
+        function navigateToDate() {
+            const dateInput = document.getElementById('dateInput').value;
+            if (dateInput) {
+                const selectedDate = new Date(dateInput);
+                if (selectedDate.toString() !== "Invalid Date") {
+                    currentDate = selectedDate;
+                    localStorage.setItem('currentDate', currentDate.toISOString());
+                    renderAgenda();
+                } else {
+                    alert("Invalid date. Please enter a valid date.");
+                }
+            } else {
+                alert("Please enter a date.");
+            }
+        }
+
+        window.navigateToDate = navigateToDate;
         window.changeWeek = changeWeek;
         window.openNav = () => document.getElementById("mySidebar").style.width = "250px";
         window.closeNav = () => document.getElementById("mySidebar").style.width = "0";
