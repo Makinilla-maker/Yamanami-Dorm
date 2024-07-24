@@ -1,0 +1,254 @@
+@font-face {
+    font-family: 'Persona5main';
+    src: url('Persona5main.ttf') format('truetype'); /* Ensure the font file is correctly linked */
+}
+
+body {
+    text-align: center;
+    /* Centers the content horizontally */
+    font-family: 'Persona5main', sans-serif;
+    background-image: url('img/background.png'); /* Adjust the path to where your image is located */
+    background-position: top left; /* Aligns the image to the right top corner */
+    background-repeat: no-repeat;
+    background-size: cover; /* Ajusta la imagen para cubrir todo el espacio disponible */
+    background-attachment: scroll; /* Opcional: mantiene la imagen fija durante el desplazamiento */
+    color: #fff;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the content horizontally */
+}
+h1, h2 {
+    font-size: 72px; /* Large font size for main header */
+    letter-spacing: 0.5px; /* Slight space increase between letters */
+    word-spacing: 20px; /* Increase space between words */
+    transform: rotate(-2deg); /* Slight overall rotation for style */
+    margin-top: 0; /* Remove any default margin */
+    padding-top: 20px; /* Padding from the top of the page */
+}
+
+h2 {
+    font-size: 48px; /* Smaller font size for subheaders */
+    color: #ffeedd; /* Light color for subheaders */
+    margin-top: 50px; /* Space above subheader */
+    word-spacing: 0; /* Normal word spacing for subheaders */
+}
+h3 {
+    margin: 10px 0 0 0; /* Ajusta el margen superior para el título */
+    color: #333; /* Color del texto para mejor visibilidad */
+    font-size: 16px; /* Tamaño de la fuente */
+}
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+}
+.character-card {
+    width: 300px; /* Ancho fijo */
+    height: 340px; /* Altura fija para mantener todo dentro */
+    overflow: hidden; /* Evita que el contenido se desborde */
+    border-radius: 8px;
+    margin: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5));
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribuye el espacio interior */
+    align-items: center; /* Alinea contenido al centro horizontalmente */
+    text-align: center; /* Centra el texto horizontalmente */
+}
+
+    .character-card img {
+        width: 100%; /* Se ajusta al ancho de la tarjeta */
+        height: 260px; /* Altura fija para la imagen */
+        border-radius: 5px;
+        object-fit: cover; /* Asegura que la imagen cubra el espacio asignado sin distorsión */
+    }
+
+    .character-card:hover {
+        background-color: #f4f4f4;
+        transform: scale(1.02);
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+/* Sidebar styles */
+.sidebar {
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 0; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #111; /* Black */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 100px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+}
+
+    /* The sidebar links */
+    .sidebar a {
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+        /* When you mouse over the navigation links, change their color */
+        .sidebar a:hover {
+            color: #f1f1f1;
+        }
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #555;
+    color: white;
+    border: none;
+    position: fixed; /* Asegura que el botón se mantenga en una posición fija en la pantalla */
+    top: 10px; /* 10px desde la parte superior */
+    left: 10px; /* 10px desde la izquierda, ajusta según necesites */
+    width: 60px;
+    height: 60px;
+}
+
+table {
+    width: 80%; /* Adjust table width as needed */
+    max-width: 960px; /* Maximum width of the table */
+    margin: 0 auto; /* Centering the table horizontally */
+    border-collapse: collapse; /* This allows for border spacing */
+    background-color: #ffffff;
+    color: #333;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px; /* Aumentado de 5px a 10px */
+    text-align: center;
+    height: 50px; /* Establece una altura mayor para más espacio */
+}
+
+.time-slot {
+    background-color: #9b9b9b;
+    height: 50px; /* Ajustado para mantener la consistencia */
+}
+
+th {
+    background-color: #666;
+    color: white;
+}
+tr:hover {
+    background-color: #f4f4f4;
+}
+.back-btn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #555;
+    color: white;
+    border: none;
+    position: fixed;
+    top: 10px;
+    left: 80px;
+    width: 60px;
+    height: 60px;
+    display: none;
+}
+.shop-item-name {
+    text-align: left;
+}
+
+.editable {
+    cursor: pointer;
+    padding: 10px; /* Espacio interno aumentado para mejor clickeabilidad */
+    background-color: #f4f4f4; /* Color de fondo al hacer hover o editar */
+    border: 1px solid #ccc; /* Bordes sutiles */
+    text-align: center;
+    direction: ltr; /* Asegura que el texto se escriba de izquierda a derecha */
+}
+
+    /* Opcional: Estilos adicionales al enfocar o editar */
+    .editable:focus {
+        background-color: #e8e8e8; /* Cambio de color de fondo al enfocar */
+        outline: none; /* Remueve el borde de foco predeterminado */
+    }
+
+#weekNavigation {
+    margin: 20px;
+    text-align: center;
+}
+
+.nav-button {
+    cursor: pointer;
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #666;
+    border: none;
+}
+.flip-card {
+    width: 300px; /* Ancho de la tarjeta */
+    height: 340px; /* Altura de la tarjeta */
+    perspective: 1000px; /* Añade perspectiva para un efecto 3D */
+    margin: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+    .flip-card-front img, .flip-card-back img {
+        width: 90%; /* Reducción del tamaño inicial al 90% */
+        height: 90%; /* Reducción del tamaño inicial al 90% */
+        object-fit: cover;
+        border-radius: 8px;
+        transition: transform 0.6s ease; /* Suaviza la transición de la transformación */
+    }
+
+.flip-card-back {
+    transform: rotateY(180deg);
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card:hover .flip-card-back img {
+    transform: scale(1.11); /* Escala la imagen hasta llenar el espacio al 100% */
+}
+
+.character-card h3 {
+    transition: opacity 0.6s ease;
+    opacity: 1; /* Nombre visible inicialmente */
+}
+
+.flip-card:hover .character-card h3 {
+    opacity: 0; /* Oculta el nombre cuando la tarjeta está girada */
+}    
+.button-container button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#calendar-container {
+    margin-top: 20px;
+}

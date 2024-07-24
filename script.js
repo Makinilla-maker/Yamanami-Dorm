@@ -21,3 +21,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+
+function selectCharacter(characterId) {
+    // Redirigir a la página de perfil del personaje seleccionado
+    window.location.href = `profile.html?characterId=${characterId}`;
+}
+

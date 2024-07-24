@@ -3,75 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Store - Yamanami Dorm</title>
-    <style>
-        @font-face {
-            font-family: 'Persona5main';
-            src: url('Persona5main.ttf') format('truetype');
-        }
-        body {
-            text-align: center;
-            font-family: 'Persona5main', sans-serif;
-            background-image: url('img/background.png');
-            background-position: top left;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-attachment: scroll;
-            color: #fff;
-            padding-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        h1, h2 {
-            font-size: 72px;
-            letter-spacing: 0.5px;
-            word-spacing: 20px;
-            transform: rotate(-2deg);
-            margin-top: 0;
-            padding-top: 20px;
-        }
-        h2 {
-            font-size: 48px;
-            color: #ffeedd;
-            margin-top: 50px;
-            word-spacing: 0;
-        }
-        table {
-            width: 90%;
-            margin: 20px auto;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.8);
-            color: #333;
-        }
-        th {
-            background-color: #f4f4f4;
-            color: #000;
-        }
-        tr:hover {
-            background-color: #f4f4f4;
-        }
-        .back-btn {
-            font-size: 20px;
-            cursor: pointer;
-            background-color: #555;
-            color: white;
-            border: none;
-            position: fixed;
-            top: 10px;
-            left: 80px;
-            width: 60px;
-            height: 60px;
-            display: none;
-        }
-        .shop-item-name {
-            text-align: left;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <button class="back-btn" id="backBtn" onclick="goBack()">⬅</button>
