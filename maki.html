@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Maki Nilha</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">.
 </head>
 <body>
     <div id="mySidebar" class="sidebar">
@@ -21,7 +21,7 @@
         <span id="weekLabel"></span>
         <button class="nav-button" onclick="changeWeek(1)">Next Week &#10095;</button>
     </div>
-    
+
     <div id="dateSelection" style="text-align: center; margin: 20px;">
         <input type="date" id="dateInput" />
         <button class="nav-button" onclick="navigateToDate()">Go</button>
@@ -38,14 +38,39 @@
         </tbody>
     </table>
 
-<!--     <button id="addYearDataButton">Añadir Días del Año a Firestore</button>
- -->
+    <!-- Aquí añadimos las casillas -->
+    <div class="info-grid">
+        <div class="info-cell">Occupation</div>
+        <div class="info-cell" contenteditable="true">Tester</div>
+        <div class="info-cell">Skill</div>
+        <div class="info-cell" contenteditable="true">Courage</div>
+        <div class="info-cell">RP</div>
+        <div class="info-cell" contenteditable="true">5</div>
+        <div class="info-cell">Worked Blocks</div>
+        <div class="info-cell">Mon</div>
+        <div class="info-cell" contenteditable="true"></div>
+        <div class="info-cell">Tue</div>
+        <div class="info-cell" contenteditable="true"></div>
+        <div class="info-cell">Wed</div>
+        <div class="info-cell" contenteditable="true"></div>
+        <div class="info-cell">Thu</div>
+        <div class="info-cell" contenteditable="true"></div>
+        <div class="info-cell">Fri</div>
+        <div class="info-cell" contenteditable="true"></div>
+        <div class="info-cell">Sat</div>
+        <div class="info-cell" contenteditable="true"></div>
+        <div class="info-cell">Sun</div>
+        <div class="info-cell" contenteditable="true"></div>
+        <div class="info-cell">RP/Block</div>
+        <div class="info-cell" contenteditable="true">1</div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
         import { getFirestore, doc, getDoc, updateDoc, collection, deleteDoc, query, where, getDocs, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyAyt_9YFvhYF_f5adSS1M_FrJ1bQ199VWY",  // Asegúrate de reemplazar esto con tu API key real
+            apiKey: "API_KEY",  // Asegúrate de reemplazar esto con tu API key real
             authDomain: "yamanami-dorm.firebaseapp.com",
             projectId: "yamanami-dorm",
             storageBucket: "yamanami-dorm.appspot.com",
@@ -91,7 +116,7 @@
         function changeWeek(direction) {
             currentDate.setDate(currentDate.getDate() + (7 * direction));
             localStorage.setItem('${pageId}CurrentDate', currentDate.toISOString());
-            renderAgenda();         
+            renderAgenda();
         }
 
         function renderAgenda() {
@@ -179,7 +204,7 @@
                             cell.textContent = data[slot] || "";
                         } else {
                             console.log("No hay datos para", dateOfCell);
-                            cell.textContent = ""; 
+                            cell.textContent = "";
                         }
                     }, (error) => {
                         console.error("Error al escuchar los datos de Firestore:", error);
@@ -192,8 +217,8 @@
 
         async function addDaysOfYearToFirestore(year) {
             const db = getFirestore(app);
-            const startDate = new Date(year, 0, 1); 
-            const endDate = new Date(year + 1, 0, 0); 
+            const startDate = new Date(year, 0, 1);
+            const endDate = new Date(year + 1, 0, 0);
 
             // Paso 1: Eliminar documentos anteriores del año especificado
             const agendaCollection = collection(db, "agenda");
@@ -201,9 +226,9 @@
             const querySnapshot = await getDocs(q);
 
             for (const docSnapshot of querySnapshot.docs) {
-            await deleteDoc(docSnapshot.ref);
-            console.log(`Deleted document: ${docSnapshot.id}`);
-        }
+                await deleteDoc(docSnapshot.ref);
+                console.log(`Deleted document: ${docSnapshot.id}`);
+            }
 
             // Paso 2: Añadir nuevos documentos
             for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
@@ -212,7 +237,7 @@
                 await setDoc(docRef, {
                     date: dateStr,
                     notes: ""
-                }, { merge: true }); 
+                }, { merge: true });
             }
         }
 

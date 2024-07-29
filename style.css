@@ -252,3 +252,32 @@ tr:hover {
 #calendar-container {
     margin-top: 20px;
 }
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    padding: 20px;
+    background-color: #7d83a3; /* Ajusta este color según sea necesario */
+    color: white;
+}
+
+.info-cell {
+    color: black;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+}
+
+    .info-cell[contenteditable="true"] {
+        outline: none;
+        background-color: #e0e0e0;
+    }
+
+    .info-cell[contenteditable="true"] {
+        outline: none;
+    }
