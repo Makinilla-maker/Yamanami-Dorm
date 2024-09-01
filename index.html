@@ -21,7 +21,7 @@
         <span id="weekLabel"></span>
         <button class="nav-button" onclick="changeWeek(1)">Next Week &#10095;</button>
     </div>
-    
+
     <div id="dateSelection" style="text-align: center; margin: 20px;">
         <input type="date" id="dateInput" />
         <button class="nav-button" onclick="navigateToDate()">Go</button>
@@ -242,6 +242,24 @@
             <h3>Jhoris Johan</h3>
         </a>
 
+        <h2>Confidants</h2>
+
+        <table class="confidant-table">
+            <thead>
+                <tr>
+                    <th>Arcana</th>
+                    <th>Name</th>
+                    <th>Rank</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <!-- Añade más filas según los datos de tus confidants -->
+            </tbody>
+        </table>
+
+
+
         <!-- Additional other characters -->
     </div>
 
@@ -301,6 +319,109 @@
             console.error("Error fetching document: ", error);
         });
 
+        function attachEvents() {
+            document.querySelectorAll('.confidant-table td[contenteditable="true"]').forEach(cell => {
+                cell.removeEventListener('blur', handleBlur); // Remover primero para evitar duplicados
+                cell.addEventListener('blur', handleBlur);
+            });
+        }
+
+        function handleBlur(event) {
+            const cell = event.target;
+            const row = cell.parentElement;
+            const arcana = row.cells[0].textContent.trim();
+            const name = row.cells[1].textContent.trim();
+            const rank = parseInt(cell.textContent.trim());
+
+            console.log("Arcana:", arcana, "Name:", name, "Rank:", rank);  // Verifica los valores capturados
+
+            if (!isNaN(rank)) {
+                updateConfidantData(name, arcana, rank);
+            } else {
+                console.error("Invalid rank input"); // Mostrar un error si el rango no es un número
+            }
+        }
+
+
+        document.querySelectorAll('.confidant-table td[contenteditable="true"]').forEach(cell => {
+            cell.addEventListener('blur', async (event) => {
+                const row = cell.parentElement;
+                const arcana = row.cells[0].textContent.trim();
+                const name = row.cells[1].textContent.trim();
+                const rank = parseInt(row.cells[2].textContent.trim());
+
+                if (!isNaN(rank)) {
+                    console.log(`Updating: ${name} with rank ${rank}`);  // Debugging
+                    try {
+                        await updateConfidantData(name, arcana, rank);
+                        console.log("Update successful");
+                    } catch (error) {
+                        console.error("Error updating confidant data:", error);
+                    }
+                } else {
+                    console.log("Failed validation");  // Debugging
+                }
+            });
+        });
+
+        async function updateConfidantData(name, arcana, rank) {
+            const normalized_name = name.replace(/\s+/g, '-').toLowerCase();
+            const confidantRef = doc(db, "confidants", normalized_name);
+
+            try {
+                await updateDoc(confidantRef, {
+                    arcana: arcana,
+                    name: name,
+                    rank: rank
+                });
+                console.log("Data updated successfully for:", name);
+            } catch (error) {
+                console.error("Error updating data for:", name, error);
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadConfidantData(); // Llamar a cargar los datos cuando la página se cargue
+        });
+
+        function loadConfidantData() {
+            const confidantsRef = collection(db, "confidants");
+            getDocs(confidantsRef).then((querySnapshot) => {
+                const tableBody = document.querySelector('.confidant-table tbody');
+                tableBody.innerHTML = ''; // Limpiar la tabla existente
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                <td>${data.arcana}</td>
+                <td>${data.name}</td>
+                <td contenteditable="true">${data.rank}</td>
+            `;
+                    // Inserta la fila al principio del cuerpo de la tabla
+                    tableBody.insertBefore(row, tableBody.firstChild);
+                });
+                attachEvents(); // Volver a asignar los eventos después de actualizar la tabla
+            }).catch((error) => {
+                console.error("Error loading documents:", error);
+            });
+        }
+
+
+
+
+        // Añadir escuchas a las celdas editables para guardar los cambios automáticamente
+        document.querySelectorAll('.confidant-table td[contenteditable="true"]').forEach(cell => {
+            cell.addEventListener('blur', (event) => {
+                const row = cell.parentElement;
+                const arcana = row.cells[0].textContent;
+                const name = row.cells[1].textContent;
+                const rank = cell.textContent;
+
+                saveConfidantData(name, arcana, rank);
+            });
+        });
+
         let currentDate = new Date(localStorage.getItem('${pageId}CurrentDate') || '2024-01-01T00:00:00Z');
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -326,7 +447,7 @@
         function changeWeek(direction) {
             currentDate.setDate(currentDate.getDate() + (7 * direction));
             localStorage.setItem('${pageId}CurrentDate', currentDate.toISOString());
-            renderAgenda();         
+            renderAgenda();
         }
 
         function renderAgenda() {
@@ -335,7 +456,6 @@
             generateTableBody();
             loadAgendaData();
         }
-
 
         function updateWeekLabel() {
             let weekStart = new Date(currentDate);
@@ -428,8 +548,8 @@
 
         async function addDaysOfYearToFirestore(year) {
             const db = getFirestore(app);
-            const startDate = new Date(year, 0, 1); 
-            const endDate = new Date(year + 1, 0, 0); 
+            const startDate = new Date(year, 0, 1);
+            const endDate = new Date(year + 1, 0, 0);
 
             // Paso 1: Eliminar documentos anteriores del año especificado
             const agendaCollection = collection(db, "agenda");
@@ -437,9 +557,9 @@
             const querySnapshot = await getDocs(q);
 
             for (const docSnapshot of querySnapshot.docs) {
-            await deleteDoc(docSnapshot.ref);
-            console.log(`Deleted document: ${docSnapshot.id}`);
-        }
+                await deleteDoc(docSnapshot.ref);
+                console.log(`Deleted document: ${docSnapshot.id}`);
+            }
 
             // Paso 2: Añadir nuevos documentos
             for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
@@ -448,7 +568,7 @@
                 await setDoc(docRef, {
                     date: dateStr,
                     notes: ""
-                }, { merge: true }); 
+                }, { merge: true });
             }
         }
 
@@ -465,11 +585,11 @@
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-        // Otras inicializaciones y configuraciones
+            // Otras inicializaciones y configuraciones
 
-        // Añadir el evento de clic al botón de navegación a fecha
-        document.querySelector('.nav-button').addEventListener('click', navigateToDate);
-    });
+            // Añadir el evento de clic al botón de navegación a fecha
+            document.querySelector('.nav-button').addEventListener('click', navigateToDate);
+        });
 
         function navigateToDate() {
             const dateInput = document.getElementById('dateInput').value;
@@ -494,7 +614,7 @@
     </script>
 
 
-<!--     <button id="addYearDataButton">Añadir Días del Año a Firestore</button>
- -->
+    <!--     <button id="addYearDataButton">Añadir Días del Año a Firestore</button>
+     -->
 </body>
 </html>

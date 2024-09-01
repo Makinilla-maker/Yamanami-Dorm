@@ -43,6 +43,7 @@ h3 {
     flex-wrap: wrap;
     justify-content: center;
     padding: 20px;
+    margin-bottom: 20px;
 }
 .character-card {
     width: 300px; /* Ancho fijo */
@@ -280,4 +281,31 @@ tr:hover {
 
     .info-cell[contenteditable="true"] {
         outline: none;
+    }
+
+.confidant-container {
+    width: 300px; /* Ajusta según tus necesidades */
+    margin: 20px auto; /* Centrar la tabla horizontalmente */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra opcional para resaltar la tabla */
+    margin-top: 20px;
+}
+
+.confidant-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .confidant-table th, .confidant-table td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .confidant-table th {
+        background-color: #666;
+        color: white;
+    }
+
+    .confidant-table tbody tr:nth-child(odd) {
+        background-color: #f2f2f2; /* Color de fondo para filas impares */
     }
