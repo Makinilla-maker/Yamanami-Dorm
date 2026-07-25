@@ -7,6 +7,7 @@
 </head>
 <body>
     <div id="mySidebar" class="sidebar">
+        <!--Navigation Sidebar-->
         <a href="#">Agenda</a>
         <a href="#">Characters</a>
         <a href="store.html">Store</a>
@@ -340,7 +341,7 @@
 
             // Función para abrir el sidebar
             openBtn.addEventListener('click', function () {
-                sidebar.style.width = '250px';
+                sidebar.style.width = '300px';
             });
 
             // Función para cerrar el sidebar usando 'mouseleave' en lugar de 'mouseout'
@@ -653,7 +654,7 @@
 
         window.navigateToDate = navigateToDate;
         window.changeWeek = changeWeek;
-        window.openNav = () => document.getElementById("mySidebar").style.width = "250px";
+        window.openNav = () => document.getElementById("mySidebar").style.width = "300px";
         window.closeNav = () => document.getElementById("mySidebar").style.width = "0";
     </script>
 
