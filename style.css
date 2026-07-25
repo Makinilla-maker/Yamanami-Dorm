@@ -7,7 +7,7 @@ body {
     text-align: center;
     /* Centers the content horizontally */
     font-family: 'Persona5main', sans-serif;
-    background-image: url('img/background.png'); /* Adjust the path to where your image is located */
+    background-image: url('img/Backgrounds/background.png'); /* Adjust the path to where your image is located */
     background-position: top left; /* Aligns the image to the right top corner */
     background-repeat: no-repeat;
     background-size: cover; /* Ajusta la imagen para cubrir todo el espacio disponible */
@@ -17,6 +17,14 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center; /* Centers the content horizontally */
+}
+
+.activity-page {
+    background-image: url(img/Backgrounds/background2.png);
+}
+
+.store-page {
+    background-image: url(img/Backgrounds/background3.png);
 }
 
 a {

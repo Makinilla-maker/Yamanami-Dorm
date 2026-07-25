@@ -5,7 +5,7 @@
     <title>Store - Yamanami Dorm</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="store-page">
     <button class="back-btn" id="backBtn" onclick="goBack()">⬅</button>
     <h1 id="randomColorText">Store</h1>
     <h1>Weapons</h1>
@@ -565,10 +565,9 @@
             window.location.href = 'index.html'; // Redirige a la página principal
         }
 
-        // Mostrar el botón de regreso solo en la página de la tienda
         document.addEventListener('DOMContentLoaded', function () {
             const backBtn = document.getElementById('backBtn');
-            if (window.location.pathname.includes('store.html')) {
+            if (backBtn) {
                 backBtn.style.display = 'block';
             }
         });

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Activities - Yamanami Dorm</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="activity-page">
+    <button class="back-btn" id="backBtn" onclick="goBack()">⬅</button>
+    <h1 id="randomColorText">Activities</h1>
+    <h2>Leisure</h2>
+    <table>
+        <thead>
+            <tr>
+                <th class="shop-item-name">Activity</th>
+                <th>Reward</th>
+                <th>Avilability</th>
+            </tr>
+        </thead>
+        <tr>
+            <td class="shop-item-name">LeBlanc Coffee</td>
+            <td>+Charm</td>
+            <td>Monday to Friday</td>
+        </tr>
+        <tr>
+            <td class="shop-item-name">Karaoke</td>
+            <td>+Courage</td>
+            <td>Thursday to Sunday</td>
+        </tr>
+        <tr>
+            <td class="shop-item-name">Library Study</td>
+            <td>+Knowledge</td>
+            <td>Monday to Saturday</td>
+        </tr>
+    </table>
+    <h2>School Clubs</h2>
+    <table>
+        <thead>
+            <tr>
+                <th class="shop-item-name">Club</th>
+                <th>Reward</th>
+                <th>Avilability</th>
+            </tr>
+        </thead>
+        <tr>
+            <td class="shop-item-name">Sports</td>
+            <td>+Discipline</td>
+            <td>School Days</td>
+        </tr>
+        <tr>
+            <td class="shop-item-name">Culture</td>
+            <td>+Expression</td>
+            <td>School Days</td>
+        </tr>
+    </table>
+    <h2>Shops/Facilities</h2>
+    <table>
+        <thead>
+            <tr>
+                <th class="shop-item-name">Name</th>
+                <th>Offers</th>
+                <th>Avilability</th>
+            </tr>
+        </thead>
+        <tr>
+            <td class="shop-item-name">Mayoido Antiques</td>
+            <td>Shadow Gear</td>
+            <td>Evenings</td>
+        </tr>
+        <tr>
+            <td class="shop-item-name">Police Office</td>
+            <td>Weapons and Armor</td>
+            <td>All Week</td>
+        </tr>
+        <tr>
+            <td class="shop-item-name">Velvet Room</td>
+            <td>Persona Fusion, Sacrifice, Seclusion or Intensive Training</td>
+            <td>All Week</td>
+        </tr>
+    </table>
+    <h2>Part-Time Jobs</h2>
+    <h3>Rewards can change depending on approach</h3>
+    <table>
+        <thead>
+            <tr>
+                <th class="shop-item-name">Position</th>
+                <th>Reward</th>
+                <th>Avilability</th>
+            </tr>
+        </thead>
+        <tr>
+            <td class="shop-item-name">Online Teaching</td>
+            <td>+Expression</td>
+            <td>After School</td>
+        </tr>
+        <tr>
+            <td class="shop-item-name">Farmaceutical Tester</td>
+            <td>+Courage</td>
+            <td>Monday to Friday</td>
+        </tr>
+    </table>
+    <h2>Full-Time Jobs</h2>
+    <table>
+        <thead>
+            <tr>
+                <th class="shop-item-name">Position</th>
+                <th>Reward</th>
+                <th>Availability</th>
+            </tr>
+        </thead>
+        <tr>
+            <td class="shop-item-name">Private Officer</td>
+            <td>+Discipline</td>
+            <td>Custom Schedule</td>
+        </tr>
+    </table>
+    
+    <script>
+        function goBack() {
+            window.location.href = 'index.html'; // Redirige a la página principal
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const backBtn = document.getElementById('backBtn');
+            if (backBtn) {
+                backBtn.style.display = 'block';
+            }
+        });
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            const heading = document.getElementById('randomColorText');
+            const text = heading.innerText;
+            let newHtml = '';
+            let colors = ['white', 'black']; // Define color options
+
+            // Wrap each character in a span, assign a random color
+            for (let i = 0; i < text.length; i++) {
+                const colorIndex = Math.floor(Math.random() * colors.length);
+                newHtml += `<span style="color: ${colors[colorIndex]};">${text[i]}</span>`;
+            }
+
+            heading.innerHTML = newHtml; // Apply the new HTML to the heading
+        });
+    </script>
+</body>
+</html>
