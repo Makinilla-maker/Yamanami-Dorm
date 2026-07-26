@@ -58,6 +58,42 @@ h3 {
     padding: 20px;
     margin-bottom: 20px;
 }
+.arcana-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0px;
+    margin-bottom: 0px;
+}
+
+.arcana-card {
+    width: 355px; /* Ancho fijo */
+    height: 500px; /* Altura fija para mantener todo dentro */
+    overflow: hidden; /* Evita que el contenido se desborde */
+    border-radius: 8px;
+    margin: 0px;
+    padding: 0px;
+    background: #f4f4f400;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribuye el espacio interior */
+    align-items: center; /* Alinea contenido al centro horizontalmente */
+    text-align: center; /* Centra el texto horizontalmente */
+}
+
+    .arcana-card img {
+        width: 355px; /* Se ajusta al ancho de la tarjeta */
+        height: 500px; /* Altura fija para la imagen */
+        border-radius: 5px;
+        object-fit: cover; /* Asegura que la imagen cubra el espacio asignado sin distorsión */
+    }
+
+    .arcana-card:hover {
+        background-color: #f4f4f400;
+        transform: scale(1.02);
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
 .character-card {
     width: 300px; /* Ancho fijo */
     height: 340px; /* Altura fija para mantener todo dentro */
@@ -200,6 +236,54 @@ tr:hover {
     background-color: #666;
     border: none;
 }
+
+.arcana-flip-card {
+    width: 355px; /* Ancho de la tarjeta */
+    height: 500px; /* Altura de la tarjeta */
+    perspective: 1000px; /* Añade perspectiva para un efecto 3D */
+    margin: 20px;
+}
+
+.arcana-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.arcana-card-front, .arcana-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+}
+
+    .arcana-card-front img, .arcana-card-back img {
+        width: 80%; /* Reducción del tamaño inicial al 90% */
+        height: 80%; /* Reducción del tamaño inicial al 90% */
+        object-fit: cover;
+        border-radius: 20px;
+        transition: transform 0.6s ease; /* Suaviza la transición de la transformación */
+    }
+
+.arcana-card-back {
+    transform: rotateY(180deg);
+}
+
+.arcana-card:hover .arcana-card-inner {
+    transform: rotateY(180deg);
+}
+
+/* .arcana-card:hover .arcana-card-back img {
+    transform: scale(1); // Escala la imagen hasta llenar el espacio al 100% 
+} */
+
 .flip-card {
     width: 300px; /* Ancho de la tarjeta */
     height: 340px; /* Altura de la tarjeta */
@@ -269,7 +353,7 @@ tr:hover {
 
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 10px;
     padding: 20px;
     background-color: #7d83a3; /* Ajusta este color según sea necesario */
